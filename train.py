@@ -44,7 +44,6 @@ def main():
     arg('--val_crop_width', type=int, default=1280)
 
     args = parser.parse_args()
-
     root = Path(args.root)
     root.mkdir(exist_ok=True, parents=True)
 
@@ -73,7 +72,6 @@ def main():
         raise SystemError('GPU device not found')
 
     loss = LossBinary(jaccard_weight=args.jaccard_weight)
-
     cudnn.benchmark = True
 
     def make_loader(file_names, shuffle=False, transform=None, batch_size=1):
@@ -124,7 +122,6 @@ def main():
         fold=args.fold,
         num_classes=num_classes
     )
-
 
 if __name__ == '__main__':
     main()
