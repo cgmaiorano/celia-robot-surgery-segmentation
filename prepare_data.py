@@ -49,6 +49,8 @@ if __name__ == '__main__':
 
             for mask_folder in mask_folders:
                 mask_binary = cv2.imread(str(mask_folder / file_name.name), 0)
+                print(mask_binary.shape)
+                print(str(mask_folder / file_name.name))
 
 #                 if 'Bipolar_Forceps' in str(mask_folder):
 #                     mask_instruments[mask > 0] = 1
