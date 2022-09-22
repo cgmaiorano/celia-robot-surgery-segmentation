@@ -53,7 +53,7 @@ if __name__ == '__main__':
                 
                 mask_binary = (mask_binary[h_start: h_start + height, w_start: w_start + width] > 0).astype(
                 np.uint8) * binary_factor
-                cv2.imwrite(str(binary_mask_folder / file_name.stem + '.jpg')), mask_binary)
+                cv2.imwrite(str(binary_mask_folder / (file_name.stem + '.jpg')), mask_binary)
 
 #                 if 'Bipolar_Forceps' in str(mask_folder):
 #                     mask_instruments[mask > 0] = 1
