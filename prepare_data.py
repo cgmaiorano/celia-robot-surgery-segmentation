@@ -32,8 +32,7 @@ if __name__ == '__main__':
         binary_mask_folder = (cropped_train_path / instrument_folder / 'binary_masks')
         binary_mask_folder.mkdir(exist_ok=True, parents=True)
 
-        mask_folders = list((right_path / right_folder).glob('*'))
-        print(mask_folders)
+#         mask_folders = list((right_path / right_folder).glob('*'))
         # mask_folders = [x for x in mask_folders if 'Other' not in str(mask_folders)]
 
         for file_name in tqdm(list((train_path / instrument_folder / 'right_frames').glob('*'))):
@@ -44,12 +43,17 @@ if __name__ == '__main__':
             cv2.imwrite(str(cropped_train_path / instrument_folder / 'images' / (file_name.stem + '.jpg')), img,
                         [cv2.IMWRITE_JPEG_QUALITY, 100])
 
-            mask_binary = np.zeros((old_h, old_w))
+#             mask_binary = np.zeros((old_h, old_w))
 #             mask_parts = np.zeros((old_h, old_w))
 #             mask_instruments = np.zeros((old_h, old_w))
 
-            for mask_folder in mask_folders:
-                mask_binary = np.asarray(cv2.imread(str(mask_folder / file_name.name), 0))
+            for file_name in (list((right_path / right_folder).glob('*'))):
+                mask_binary = cv2.imread(str(file_name))
+                old_h, old_w, _ = mask_binary.shape
+                
+                mask_binary = (mask_binary[h_start: h_start + height, w_start: w_start + width] > 0).astype(
+                np.uint8) * binary_factor
+                cv2.imwrite(str(binary_mask_folder / file_name.stem + '.jpg')), mask_binary)
 
 #                 if 'Bipolar_Forceps' in str(mask_folder):
 #                     mask_instruments[mask > 0] = 1
@@ -73,13 +77,13 @@ if __name__ == '__main__':
 #                     mask_parts[mask == 20] = 2  # Wrist
 #                     mask_parts[mask == 30] = 3  # Claspers
 
-            mask_binary = (mask_binary[h_start: h_start + height, w_start: w_start + width] > 0).astype(
-                np.uint8) * binary_factor
+#             mask_binary = (mask_binary[h_start: h_start + height, w_start: w_start + width] > 0).astype(
+#                 np.uint8) * binary_factor
 #             mask_parts = (mask_parts[h_start: h_start + height, w_start: w_start + width]).astype(
 #                 np.uint8) * parts_factor
 #             mask_instruments = (mask_instruments[h_start: h_start + height, w_start: w_start + width]).astype(
 #                 np.uint8) * instrument_factor
 
-            cv2.imwrite(str(binary_mask_folder / file_name.name), mask_binary)
+#             cv2.imwrite(str(binary_mask_folder / file_name.name), mask_binary)
 #             cv2.imwrite(str(parts_mask_folder / file_name.name), mask_parts)
 #             cv2.imwrite(str(instrument_mask_folder / file_name.name), mask_instruments)
