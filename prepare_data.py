@@ -48,7 +48,7 @@ if __name__ == '__main__':
 #             mask_instruments = np.zeros((old_h, old_w))
 
             for mask_folder in mask_folders:
-                mask_binary = cv2.imread(str(mask_folder / file_name.name), 0)
+                mask_binary = np.asarray(cv2.imread(str(mask_folder / file_name.name), 0))
                 print(mask_binary.shape)
                 print(str(mask_folder / file_name.name))
 
