@@ -33,6 +33,7 @@ if __name__ == '__main__':
         binary_mask_folder.mkdir(exist_ok=True, parents=True)
 
         mask_folders = list((right_path / right_folder).glob('*'))
+        print(mask_folders)
         # mask_folders = [x for x in mask_folders if 'Other' not in str(mask_folders)]
 
         for file_name in tqdm(list((train_path / instrument_folder / 'right_frames').glob('*'))):
@@ -49,8 +50,6 @@ if __name__ == '__main__':
 
             for mask_folder in mask_folders:
                 mask_binary = np.asarray(cv2.imread(str(mask_folder / file_name.name), 0))
-                print(mask_binary.shape)
-                print(str(mask_folder / file_name.name))
 
 #                 if 'Bipolar_Forceps' in str(mask_folder):
 #                     mask_instruments[mask > 0] = 1
