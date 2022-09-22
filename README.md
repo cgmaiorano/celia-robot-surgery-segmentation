@@ -43,4 +43,18 @@ python3 prepare_data.py
 ## Training 
 screen -m bash -c "./train.bash"
 
+
+## RE-RUNNING
+conda activate torch
+cd ~/celia-robot-surgery-segmentation
+## may need to remove the runs folder
+rm runs/debug/*
+rmdir runs/debug
+rmdir runs
+
+## RUNNING FOR RIGHT:
+vim ~/celia-robot-surgery-segmentation/prepare_data.py
+## change the the path from '../Dataset' to wherever the right label data is
+
+
 ```
