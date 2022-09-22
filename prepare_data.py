@@ -32,11 +32,11 @@ if __name__ == '__main__':
         binary_mask_folder = (cropped_train_path / instrument_folder / 'binary_masks')
         binary_mask_folder.mkdir(exist_ok=True, parents=True)
 
-        parts_mask_folder = (cropped_train_path / instrument_folder / 'parts_masks')
-        parts_mask_folder.mkdir(exist_ok=True, parents=True)
+#         parts_mask_folder = (cropped_train_path / instrument_folder / 'parts_masks')
+#         parts_mask_folder.mkdir(exist_ok=True, parents=True)
 
-        instrument_mask_folder = (cropped_train_path / instrument_folder / 'instruments_masks')
-        instrument_mask_folder.mkdir(exist_ok=True, parents=True)
+#         instrument_mask_folder = (cropped_train_path / instrument_folder / 'instruments_masks')
+#         instrument_mask_folder.mkdir(exist_ok=True, parents=True)
 
         mask_folders = list((right_path / right_folder).glob('*'))
         # mask_folders = [x for x in mask_folders if 'Other' not in str(mask_folders)]
@@ -56,35 +56,35 @@ if __name__ == '__main__':
             for mask_folder in mask_folders:
                 mask = cv2.imread(str(mask_folder / file_name.name), 0)
 
-                if 'Bipolar_Forceps' in str(mask_folder):
-                    mask_instruments[mask > 0] = 1
-                elif 'Prograsp_Forceps' in str(mask_folder):
-                    mask_instruments[mask > 0] = 2
-                elif 'Large_Needle_Driver' in str(mask_folder):
-                    mask_instruments[mask > 0] = 3
-                elif 'Vessel_Sealer' in str(mask_folder):
-                    mask_instruments[mask > 0] = 4
-                elif 'Grasping_Retractor' in str(mask_folder):
-                    mask_instruments[mask > 0] = 5
-                elif 'Monopolar_Curved_Scissors' in str(mask_folder):
-                    mask_instruments[mask > 0] = 6
-                elif 'Other' in str(mask_folder):
-                    mask_instruments[mask > 0] = 7
+#                 if 'Bipolar_Forceps' in str(mask_folder):
+#                     mask_instruments[mask > 0] = 1
+#                 elif 'Prograsp_Forceps' in str(mask_folder):
+#                     mask_instruments[mask > 0] = 2
+#                 elif 'Large_Needle_Driver' in str(mask_folder):
+#                     mask_instruments[mask > 0] = 3
+#                 elif 'Vessel_Sealer' in str(mask_folder):
+#                     mask_instruments[mask > 0] = 4
+#                 elif 'Grasping_Retractor' in str(mask_folder):
+#                     mask_instruments[mask > 0] = 5
+#                 elif 'Monopolar_Curved_Scissors' in str(mask_folder):
+#                     mask_instruments[mask > 0] = 6
+#                 elif 'Other' in str(mask_folder):
+#                     mask_instruments[mask > 0] = 7
 
                 if 'Other' not in str(mask_folder):
                     mask_binary += mask
 
-                    mask_parts[mask == 10] = 1  # Shaft
-                    mask_parts[mask == 20] = 2  # Wrist
-                    mask_parts[mask == 30] = 3  # Claspers
+#                     mask_parts[mask == 10] = 1  # Shaft
+#                     mask_parts[mask == 20] = 2  # Wrist
+#                     mask_parts[mask == 30] = 3  # Claspers
 
             mask_binary = (mask_binary[h_start: h_start + height, w_start: w_start + width] > 0).astype(
                 np.uint8) * binary_factor
-            mask_parts = (mask_parts[h_start: h_start + height, w_start: w_start + width]).astype(
-                np.uint8) * parts_factor
-            mask_instruments = (mask_instruments[h_start: h_start + height, w_start: w_start + width]).astype(
-                np.uint8) * instrument_factor
+#             mask_parts = (mask_parts[h_start: h_start + height, w_start: w_start + width]).astype(
+#                 np.uint8) * parts_factor
+#             mask_instruments = (mask_instruments[h_start: h_start + height, w_start: w_start + width]).astype(
+#                 np.uint8) * instrument_factor
 
             cv2.imwrite(str(binary_mask_folder / file_name.name), mask_binary)
-            cv2.imwrite(str(parts_mask_folder / file_name.name), mask_parts)
-            cv2.imwrite(str(instrument_mask_folder / file_name.name), mask_instruments)
+#             cv2.imwrite(str(parts_mask_folder / file_name.name), mask_parts)
+#             cv2.imwrite(str(instrument_mask_folder / file_name.name), mask_instruments)
