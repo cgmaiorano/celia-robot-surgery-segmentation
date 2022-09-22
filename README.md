@@ -57,4 +57,16 @@ vim ~/celia-robot-surgery-segmentation/prepare_data.py
 ## change the the path from '../Dataset' to wherever the right label data is
 
 
+## Folders / Data tracker
+# switch to home directory
+cd ~
+
+celia-robot-surgery-segmentation/    ## code / repository location
+data/
+Dataset/
+data.zip				## original dataset
+original-run-data.zip			## output of original dataset run
+right_label/				## right label data unzipped
+right_label_data.zip			## right label data zip
+
 ```
