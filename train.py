@@ -27,6 +27,9 @@ from albumentations import (
     CenterCrop
 )
 
+moddel_list = {'UNet11': UNet11,}
+
+
 def main():
     parser = argparse.ArgumentParser()
     arg = parser.add_argument
@@ -42,8 +45,11 @@ def main():
     arg('--train_crop_width', type=int, default=1280)
     arg('--val_crop_height', type=int, default=1024)
     arg('--val_crop_width', type=int, default=1280)
+    arg('--type', type=str, default='binary', choices=['binary', 'parts', 'instruments'])
+    arg('--model', type=str, default='UNet11', choices=moddel_list.keys())
 
     args = parser.parse_args()
+
     root = Path(args.root)
     root.mkdir(exist_ok=True, parents=True)
 
@@ -59,8 +65,14 @@ def main():
               'are not.'.format(val_crop_height=args.val_crop_height, val_crop_width=args.val_crop_width))
         sys.exit(0)
 
-    num_classes = 1
-    model = UNet11(num_classes=num_classes, pretrained=True)
+    if args.type == 'binary':
+        num_classes = 1
+    else:
+        print("Num classes is wrong")
+    if args.model == 'UNet11':
+        model = UNet11(num_classes=num_classes,pretrained=True)
+    else:
+        print("Model type is wrong")
 
     if torch.cuda.is_available():
         if args.device_ids:
@@ -71,12 +83,17 @@ def main():
     else:
         raise SystemError('GPU device not found')
 
-    loss = LossBinary(jaccard_weight=args.jaccard_weight)
+    if args.type == 'binary':
+        loss = LossBinary(jaccard_weight=args.jaccard_weight)
+    else:
+        print("Loss type is wrong")
+
     cudnn.benchmark = True
 
-    def make_loader(file_names, shuffle=False, transform=None, batch_size=1):
+    def make_loader(file_names, shuffle=False, transform=None, problem_type='binary', batch_size=1):
+        print("Problem type: ",problem_type)
         return DataLoader(
-            dataset=RoboticsDataset(file_names, transform=transform, problem_type='binary'),
+            dataset=RoboticsDataset(file_names, transform=transform, problem_type=problem_type),
             shuffle=shuffle,
             num_workers=args.workers,
             batch_size=batch_size,
@@ -103,13 +120,18 @@ def main():
             Normalize(p=1)
         ], p=p)
 
-    train_loader = make_loader(train_file_names, shuffle=True, transform=train_transform(p=1), batch_size=args.batch_size)
-    valid_loader = make_loader(val_file_names, transform=val_transform(p=1), batch_size=len(device_ids))
+    train_loader = make_loader(train_file_names, shuffle=True, transform=train_transform(p=1), problem_type=args.type,
+                               batch_size=args.batch_size)
+    valid_loader = make_loader(val_file_names, transform=val_transform(p=1), problem_type=args.type,
+                               batch_size=len(device_ids))
 
     root.joinpath('params.json').write_text(
         json.dumps(vars(args), indent=True, sort_keys=True))
 
-    valid = validation_binary
+    if args.type == 'binary':
+        valid = validation_binary
+    else:
+        print("Wrong validation")
 
     utils.train(
         init_optimizer=lambda lr: Adam(model.parameters(), lr=lr),
@@ -123,5 +145,7 @@ def main():
         num_classes=num_classes
     )
 
+
 if __name__ == '__main__':
     main()
+    
