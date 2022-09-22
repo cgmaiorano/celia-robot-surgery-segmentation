@@ -3,7 +3,10 @@ from prepare_data import data_path
 
 def get_split(fold):
     folds = {0: [1, 3],
-             1: [2, 4]}
+             1: [2, 5],
+             2: [4, 8],
+             3: [6, 7]}
+
 
     train_path = data_path / 'cropped_train'
 
