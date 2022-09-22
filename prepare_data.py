@@ -11,7 +11,7 @@ import numpy as np
 data_path = Path('../Dataset')
 
 train_path = data_path / 'instrument_1_4_training'
-
+right_path = Path('../right_label')
 cropped_train_path = data_path / 'cropped_train'
 
 original_height, original_width = 1080, 1920
@@ -26,7 +26,7 @@ instrument_factor = 32
 if __name__ == '__main__':
     for instrument_index in range(1, 5):
         instrument_folder = 'instrument_dataset_' + str(instrument_index)
-
+        right_folder = 'right_label_' + str(instrument_index)
         (cropped_train_path / instrument_folder / 'images').mkdir(exist_ok=True, parents=True)
 
         binary_mask_folder = (cropped_train_path / instrument_folder / 'binary_masks')
@@ -38,10 +38,10 @@ if __name__ == '__main__':
         instrument_mask_folder = (cropped_train_path / instrument_folder / 'instruments_masks')
         instrument_mask_folder.mkdir(exist_ok=True, parents=True)
 
-        mask_folders = list((train_path / instrument_folder / 'ground_truth').glob('*'))
+        mask_folders = list((right_path / right_folder).glob('*'))
         # mask_folders = [x for x in mask_folders if 'Other' not in str(mask_folders)]
 
-        for file_name in tqdm(list((train_path / instrument_folder / 'left_frames').glob('*'))):
+        for file_name in tqdm(list((train_path / instrument_folder / 'right_frames').glob('*'))):
             img = cv2.imread(str(file_name))
             old_h, old_w, _ = img.shape
 
