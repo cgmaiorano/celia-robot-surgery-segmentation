@@ -32,12 +32,6 @@ if __name__ == '__main__':
         binary_mask_folder = (cropped_train_path / instrument_folder / 'binary_masks')
         binary_mask_folder.mkdir(exist_ok=True, parents=True)
 
-#         parts_mask_folder = (cropped_train_path / instrument_folder / 'parts_masks')
-#         parts_mask_folder.mkdir(exist_ok=True, parents=True)
-
-#         instrument_mask_folder = (cropped_train_path / instrument_folder / 'instruments_masks')
-#         instrument_mask_folder.mkdir(exist_ok=True, parents=True)
-
         mask_folders = list((right_path / right_folder).glob('*'))
         # mask_folders = [x for x in mask_folders if 'Other' not in str(mask_folders)]
 
@@ -50,11 +44,11 @@ if __name__ == '__main__':
                         [cv2.IMWRITE_JPEG_QUALITY, 100])
 
             mask_binary = np.zeros((old_h, old_w))
-            mask_parts = np.zeros((old_h, old_w))
-            mask_instruments = np.zeros((old_h, old_w))
+#             mask_parts = np.zeros((old_h, old_w))
+#             mask_instruments = np.zeros((old_h, old_w))
 
             for mask_folder in mask_folders:
-                mask = cv2.imread(str(mask_folder / file_name.name), 0)
+                mask_binary = cv2.imread(str(mask_folder / file_name.name), 0)
 
 #                 if 'Bipolar_Forceps' in str(mask_folder):
 #                     mask_instruments[mask > 0] = 1
@@ -71,8 +65,8 @@ if __name__ == '__main__':
 #                 elif 'Other' in str(mask_folder):
 #                     mask_instruments[mask > 0] = 7
 
-                if 'Other' not in str(mask_folder):
-                    mask_binary += mask
+#                 if 'Other' not in str(mask_folder):
+#                     mask_binary += mask
 
 #                     mask_parts[mask == 10] = 1  # Shaft
 #                     mask_parts[mask == 20] = 2  # Wrist
