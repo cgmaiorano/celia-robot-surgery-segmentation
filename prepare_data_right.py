@@ -1,6 +1,7 @@
 """
-This code has been edited to run for the right frames and my labels that were created in hwk2pt1. Prior to editing the code was not changed from the 
-original ternaus prepare_data. 
+This code has been edited to run for the right frames and my labels that were created in hwk2pt1. 
+The file name must be changed to prepare_data.py prior to running and training
+
 [1] Merge masks with different instruments into one binary mask
 [2] Crop black borders from images and masks
 """
