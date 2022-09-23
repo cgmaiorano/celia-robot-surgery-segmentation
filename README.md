@@ -69,4 +69,7 @@ original-run-data.zip			## output of original dataset run
 right_label/				## right label data unzipped
 right_label_data.zip			## right label data zip
 
+## GCLOUD local commands for copying files FROM VM to local
+gcloud compute scp celia-gpu-vm-05:/home/celiagrace13/<filename> c:\users\celia\documents\homeworkcs8395\<filename>
+
 ```
