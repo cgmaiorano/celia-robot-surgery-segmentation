@@ -1,4 +1,6 @@
 """
+This code has been edited to run for the right frames and my labels that were created in hwk2pt1. Prior to editing the code was not changed from the 
+original ternaus prepare_data. 
 [1] Merge masks with different instruments into one binary mask
 [2] Crop black borders from images and masks
 """
@@ -8,7 +10,7 @@ from tqdm import tqdm
 import cv2
 import numpy as np
 
-data_path = Path('../Dataset')
+data_path = Path('../Dataset/')
 
 train_path = data_path / 'instrument_1_4_training'
 right_path = Path('../right_label')
