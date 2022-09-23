@@ -1,4 +1,6 @@
 """
+This is the file written to run the left data. In order to run it the file name must be changed to prepare_data.py in order to successfully train 
+
 [1] Merge masks with different instruments into one binary mask
 [2] Crop black borders from images and masks
 """
@@ -8,11 +10,9 @@ from tqdm import tqdm
 import cv2
 import numpy as np
 
-#data_path = Path('../Dataset')
-data_path = Path('../right-label')
+data_path = Path('../Dataset/')
 
-#train_path = data_path / 'instrument_1_4_training'
-train_path = data_path
+train_path = data_path / 'instrument_1_4_training'
 
 cropped_train_path = data_path / 'cropped_train'
 
